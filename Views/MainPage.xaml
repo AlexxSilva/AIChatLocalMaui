@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:AIChatLocal.ViewModels"
+             xmlns:converters="clr-namespace:AIChatLocal.Converters"
+             x:Class="AIChatLocal.MainPage">
+
+    <ContentPage.BindingContext>
+        <viewmodels:MainViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <ScrollView Padding="20">
+            <VerticalStackLayout Spacing="15">
+                <Label Text="Pergunta para a IA (Ollama 3):"
+                       FontSize="20" />
+
+                <Entry Text="{Binding Mensagem}"
+                       Placeholder="Digite sua pergunta" />
+
+                <Button Text="Enviar"
+                        Command="{Binding EnviarCommand}" />
+
+                <Label Text="Resposta:"
+                       FontSize="20" />
+
+                <Label Text="{Binding Resposta}"
+                       FontSize="16"
+                       TextColor="DarkSlateGray" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </ScrollView>
+
+</ContentPage>
