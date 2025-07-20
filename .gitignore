@@ -1,0 +1,84 @@
+## Compilação
+bin/
+obj/
+build/
+BuildLogs/
+
+## Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Rider
+.idea/
+*.sln.iml
+
+## VS Code
+.vscode/
+
+## Sistemas operacionais
+.DS_Store
+Thumbs.db
+
+## MAUI e plataformas móveis
+*.apk
+*.ap_ 
+*.aab
+*.keystore
+*.jks
+*.dex
+*.jar
+*.zip
+*.dll
+*.so
+*.dSYM/
+*.plist
+*.xcuserstate
+*.xcuserdatad
+*.xcworkspace/
+*.xcodeproj/
+*.xcconfig
+*.entitlements
+*.nib/
+*.mode1v3
+*.mode2v3
+*.pbxuser
+*.pbxproj
+*.maui.*
+platforms/**/Resources/*.designer.cs
+
+## iOS/Apple
+*.xcarchive
+*.ipa
+*.dsym
+
+## Android
+*.crash
+*.dmp
+
+## NuGet
+*.nupkg
+*.nuspec
+packages/
+project.lock.json
+project.fragment.lock.json
+.nuget/
+
+## Ferramentas .NET
+*.dotnet_tool*
+
+## Configurações locais e sensíveis
+appsettings.*.json
+secrets.json
+
+## Framework targets (inclui .NET 9)
+*.net6.0*/bin/
+*.net6.0*/obj/
+*.net7.0*/bin/
+*.net7.0*/obj/
+*.net8.0*/bin/
+*.net8.0*/obj/
+*.net9.0*/bin/
+*.net9.0*/obj/
