@@ -1,6 +1,8 @@
-﻿using AIChatLocal.Services;
+﻿using AIChatLocal.Models;
+using AIChatLocal.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -15,39 +17,52 @@ namespace AIChatLocal.ViewModels
         private string mensagem;
 
         [ObservableProperty]
-        private string resposta;
-
-        [ObservableProperty]
         private bool executando;
+
+        public ObservableCollection<MensagemModel> Conversa { get; } = new();
 
         public IRelayCommand EnviarCommand { get; }
 
         public MainViewModel()
         {
             _ollamaService = new OllamaService();
-            EnviarCommand = new AsyncRelayCommand(EnviarMensagem, () => !Executando);
+            EnviarCommand = new AsyncRelayCommand(EnviarMensagemAsync, () => !Executando);
         }
 
-        private async Task EnviarMensagem()
+        private async Task EnviarMensagemAsync()
         {
             if (string.IsNullOrWhiteSpace(Mensagem))
-            {
-                Resposta = "Digite uma pergunta válida.";
                 return;
-            }
 
+            var mensagemUsuario = Mensagem;
+
+            Conversa.Add(new MensagemModel
+            {
+                Texto = mensagemUsuario,
+                EhUsuario = true
+            });
+
+            Mensagem = string.Empty;
             Executando = true;
             EnviarCommand.NotifyCanExecuteChanged();
-            Resposta = "Carregando...";
 
             try
             {
-                var resultado = await _ollamaService.EnviarMensagemAsync(Mensagem);
-                Resposta = resultado;
+                var resposta = await _ollamaService.EnviarMensagemAsync(mensagemUsuario);
+
+                Conversa.Add(new MensagemModel
+                {
+                    Texto = resposta,
+                    EhUsuario = false
+                });
             }
             catch (Exception ex)
             {
-                Resposta = $"Erro: {ex.Message}";
+                Conversa.Add(new MensagemModel
+                {
+                    Texto = $"Erro: {ex.Message}",
+                    EhUsuario = false
+                });
             }
             finally
             {

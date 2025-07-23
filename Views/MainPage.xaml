@@ -2,33 +2,85 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:AIChatLocal.ViewModels"
-             xmlns:converters="clr-namespace:AIChatLocal.Converters"
              x:Class="AIChatLocal.MainPage">
 
     <ContentPage.BindingContext>
         <viewmodels:MainViewModel />
     </ContentPage.BindingContext>
 
-    <ScrollView>
-        <ScrollView Padding="20">
-            <VerticalStackLayout Spacing="15">
-                <Label Text="Pergunta para a IA (Ollama 3):"
-                       FontSize="20" />
 
-                <Entry Text="{Binding Mensagem}"
-                       Placeholder="Digite sua pergunta" />
+    <Grid Padding="10"
+          RowDefinitions="Auto, *, Auto, Auto"
+          RowSpacing="10">
+
+        <Label Grid.Row="0"
+               Text="Olama 3.1 Assistente"
+               FontAttributes="Bold"
+               FontSize="18"
+               TextColor="Black"
+               HorizontalOptions="Center"
+               Margin="0,0,0,10" />
+        <!-- Lista de mensagens -->
+        <CollectionView Grid.Row="1"
+                        EmptyView="O que deseja conversar hoje?"
+                        ItemsSource="{Binding Conversa}"
+                        VerticalOptions="FillAndExpand">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="5">
+                        <Frame CornerRadius="10"
+                               BackgroundColor="{Binding EhUsuario, Converter={StaticResource BoolToBackgroundConverter}}"
+                               BorderColor="{Binding EhUsuario, Converter={StaticResource BoolToColorConverter}}"
+                               Padding="10"
+                               Margin="5"
+                               HorizontalOptions="{Binding EhUsuario, Converter={StaticResource BoolToAlignConverter}}">
+                            <StackLayout>
+                                <Label Text="{Binding Remetente}"
+                                       FontAttributes="Bold"
+                                       FontSize="12"
+                                       TextColor="DarkGray"
+                                       HorizontalOptions="Start" />
+
+                                <Label Text="{Binding Texto}"
+                                       FontSize="14"
+                                       TextColor="Black"
+                                       LineBreakMode="WordWrap" />
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Status "pensando..." -->
+            <Label Grid.Row="2"
+                   Text="Pensando..."
+                   IsVisible="{Binding Executando}"
+                   HorizontalOptions="Center"
+                   FontAttributes="Italic"
+                   FontSize="Medium"
+                   TextColor="Gray" />
+       
+        <StackLayout Orientation="Horizontal"
+                         Grid.Row="3"
+                         Spacing="5"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="End"
+                         Padding="0,5">
+                <Entry Placeholder="Digite sua mensagem..."
+                       Text="{Binding Mensagem}"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       BackgroundColor="#F0F0F0"
+                       Margin="0,0,5,0" />
 
                 <Button Text="Enviar"
-                        Command="{Binding EnviarCommand}" />
+                        Command="{Binding EnviarCommand}"
+                        WidthRequest="80"
+                        VerticalOptions="Center" />
+            </StackLayout>
+     
 
-                <Label Text="Resposta:"
-                       FontSize="20" />
-
-                <Label Text="{Binding Resposta}"
-                       FontSize="16"
-                       TextColor="DarkSlateGray" />
-            </VerticalStackLayout>
-        </ScrollView>
-    </ScrollView>
+    </Grid>
 
 </ContentPage>
